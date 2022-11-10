@@ -59,7 +59,7 @@ app.post('/upload', function(req, res) {
                 if(err) {
                     return res.json({error_code:1,err_desc:err, data: null});
                 } 
-                res.json({error_code:0,err_desc:null, data: result});
+                res.json({error_code:0,err_desc:null, data: result}); //this is where to send json object to view
             });
         } catch (e){
             res.json({error_code:1,err_desc:"Corupted excel file"});
@@ -69,7 +69,7 @@ app.post('/upload', function(req, res) {
 });
 
 
-app.get('/',function(req,res){
+app.get('/upload',function(req,res){
     res.sendFile( './views/index.html',{root:__dirname});
 });
 
