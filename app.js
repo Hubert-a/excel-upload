@@ -10,6 +10,8 @@ const xlsx = require('xlsx')
 
 
 app.use(body_parser.json());  
+app.set('view engine', 'ejs')
+
 
 var storage = multer.diskStorage({ 
     destination: function (req, file, cb) {
@@ -40,6 +42,7 @@ app.post('/upload', function(req, res) {
         }
         if(!req.file){
             res.json({error_code:1,err_desc:"No file passed"});
+
             return;
         }
         
@@ -58,8 +61,11 @@ app.post('/upload', function(req, res) {
             }, function(err,result){
                 if(err) {
                     return res.json({error_code:1,err_desc:err, data: null});
+                    
+                     
                 } 
-                res.json({error_code:0,err_desc:null, data: result}); //this is where to send json object to view
+                // res.json({error_code:0,err_desc:null, data: result}); //this is where to send json object to view
+                res.render('upload', {error_code:1, err_desc:null,  data:result})
             });
         } catch (e){
             res.json({error_code:1,err_desc:"Corupted excel file"});
@@ -69,8 +75,8 @@ app.post('/upload', function(req, res) {
 });
 
 
-app.get('/upload',function(req,res){
-    res.sendFile( './views/index.html',{root:__dirname});
+app.get('/',function(req,res){
+    res.render('index');
 });
 
 app.listen('3000', function(){
